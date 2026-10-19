@@ -26,17 +26,34 @@ On top of the native theme it also:
 
 ## Install
 
-On the Proxmox node, as root:
+On the Proxmox node, as root. Pick one method.
+
+**Download and install (two commands):**
 
 ```bash
-git clone https://github.com/DeclaredSins/PVEDiscordDark9.git /root/pvediscorddark
-bash /root/pvediscorddark/install.sh install
+wget -qO- https://github.com/DeclaredSins/PVEDiscordDark9/archive/refs/heads/main.tar.gz | tar xz -C /root
+bash /root/PVEDiscordDark9-main/install.sh install
 ```
 
-No Git on the node? Copy the folder over with `scp -r` instead. Then hard-refresh the browser
-(Ctrl/Cmd+Shift+R).
+**All in one:**
 
-- **Keep the folder.** An apt hook (`/etc/apt/apt.conf.d/99-pvediscorddark`) runs `install.sh` again
+```bash
+wget -qO- https://github.com/DeclaredSins/PVEDiscordDark9/archive/refs/heads/main.tar.gz | tar xz -C /root && bash /root/PVEDiscordDark9-main/install.sh install
+```
+
+**With Git:**
+
+```bash
+git clone https://github.com/DeclaredSins/PVEDiscordDark9.git /root/PVEDiscordDark9-main
+bash /root/PVEDiscordDark9-main/install.sh install
+```
+
+Then hard-refresh the browser (Ctrl/Cmd+Shift+R).
+
+To update, run the same wget commands again (with Git: `git -C /root/PVEDiscordDark9-main pull`, then re-run `install.sh install`). To pin a version, replace `refs/heads/main` in the URL with
+a tag or commit, e.g. `archive/<commit-hash>.tar.gz`.
+
+- **Keep the folder** (`/root/PVEDiscordDark9-main`). An apt hook (`/etc/apt/apt.conf.d/99-pvediscorddark`) runs `install.sh` again
   after `pve-manager` upgrades overwrite the web UI template.
 - **Clusters:** repeat on each node, since each node serves its own UI.
 - **Status / removal:** `bash install.sh status`, `bash install.sh uninstall`.
