@@ -1,0 +1,242 @@
+// these styling fix all kinds of icons in grid, treeview etc.
+
+// most icons just use the color attribute..
+// Running containers and VMS
+.x-grid-icon-custom.running,
+.x-tree-icon-custom.running,
+// Icons in trees (e.g. Resource tree)
+.x-tree-icon-custom,
+// Icons in panels, e.g. Search tab
+.fa-database::before,
+// Icon for pools
+.fa-tags::before,
+// The template icon
+.fa-file-o::before,
+// Icon for cluster nodes
+.fa-building::before,
+// e.g. storage list when creating a guest
+.x-action-col-icon::before,
+.fa-shield::before,
+.fa-file-text-o::before,
+.fa-clock-o::before,
+// tab bar icons
+.x-tab-icon-el-default,
+.pve-icon-verify-lettering::after,
+// the small plane when migrating a vm
+.x-tree-icon-custom.lock-migrate::after,
+.x-grid-icon-custom.lock-migrate::after,
+// e.g. permission tree view in pve
+.x-tree-icon-leaf:not(.x-tree-icon-custom)::before,
+.x-tree-icon-parent:not(.x-tree-icon-custom)::before,
+.x-tree-icon-parent-expanded:not(.x-tree-icon-custom)::before,
+.x-grid-filters-filtered-column .x-column-header-text::after {
+  color: $icon-color;
+}
+
+// pve needs to set `color` on this pseudo element, but the api viewer and pbs
+// add a filter to the parent. so invert it here again, to fix this for pve.
+.x-tree-icon-parent:not(.x-tree-icon-custom)::before,
+.x-tree-icon-parent-expanded:not(.x-tree-icon-custom)::before {
+  filter: invert(90%);
+}
+
+// but some are implement as background SVGs or PNGs. invert them via
+// filters:
+.fa-ceph::before,
+.fa-sdn::before,
+.fa-network-wired::before,
+// Icon for "ISO Images" for storages
+.pve-itype-treelist-item-icon-cdrom,
+// Arrow to the right
+.fa-chevron-right::before,
+// icon indicating a currently open shell session in the task viewer
+.x-grid-row-console,
+// the "triangle" that appears when the sidebar becomes scrollable
+.x-box-scroller-toolbar-default.x-box-scroller,
+// the small triangles in the tree view next to nodes etc.
+.x-tree-elbow-img,
+// the computer icon in the resource pool add menu
+.pve-itype-icon-qemu,
+.x-tree-node-computer,
+.x-grid-tree-node-expanded .x-tree-node-computer,
+.pbs-icon-tape,
+.pbs-icon-tape-drive,
+.x-tree-icon-leaf:not(.x-tree-icon-custom),
+// default tree panel icons (api viewer, pbs backup panel)
+.x-tree-icon-parent:not(.x-tree-icon-custom),
+.x-tree-icon-parent-expanded:not(.x-tree-icon-custom) {
+  filter: invert($icon-brightness);
+}
+
+// icons that are plain background images with a dark fill: handled in _icons-recolored.scss
+// (light recolored copies). These remaining ones still need the invert filter.
+.pve-itype-icon-storage,
+.x-tree-node-harddisk,
+.x-grid-tree-node-expanded .x-tree-node-harddisk {
+  filter: invert($icon-brightness);
+
+  .x-grid-cell-inner {
+    color: black;
+  }
+
+  .x-keyboard-mode &.x-grid-item-focused {
+    background-color: invert($selection-background-color, $weight: 90%);
+
+    .x-grid-cell-inner::before {
+      border-color: invert($primary-color, $weight: 90%);
+    }
+  }
+}
+
+// pbs show task log in longest task list column
+.fa.black,
+.fa.black::after,
+.fa.black::before,
+.x-action-col-icon.fa-chevron-right::before {
+  filter: none;
+}
+
+/* a bit of a hack, but otherwise the expanders and collapsers are barely visible */
+.x-tree-arrows .x-tree-expander {
+    filter: brightness(200%);
+}
+.x-tree-arrows .x-tree-expander-over .x-tree-expander {
+    filter: brightness(0);
+}
+
+// checkboxes and radio buttons
+.x-form-checkbox-default,
+.x-form-radio-default,
+.x-column-header-checkbox .x-column-header-checkbox::after,
+.x-grid-checkcolumn::after,
+// checkboxes without the extra "blueish" active states
+.x-menu-item-checked .x-menu-item-icon-default.x-menu-item-checkbox,
+.x-menu-item-unchecked .x-menu-item-icon-default.x-menu-item-checkbox {
+  filter: invert($icon-brightness) hue-rotate(180deg) brightness(125%);
+}
+
+.x-tree-icon-custom,
+.x-grid-icon-custom {
+  color: $icon-color;
+
+  &::after {
+    color: $icon-color;
+    text-shadow: -1px 0 1px $background-darker;
+  }
+
+  // stopped containers and VMs
+  &.stopped,
+  // vms/cts that are offline
+  &.offline,
+  // question mark at the bottom right of e.g. unreachable storages
+  &.unknown::after {
+    color: $icon-color-alt;
+  }
+
+  &.locked::after {
+    color: $icon-color;
+  }
+
+  &.lxc::after,
+  &.qemu::after {
+    background-color: $background-darker;
+    color: $icon-color;
+  }
+}
+
+.pmx-tree-icon-custom {
+  &::after {
+    text-shadow: -1px 0 1px $background-darker;
+  }
+
+  &.maintenance::before {
+    color: $icon-color-alt;
+  }
+
+  &.maintenance::after {
+    color: $icon-color;
+  }
+}
+
+// icons for templates in the storages view
+.x-treelist-item-icon {
+  &.lxc::after,
+  &.qemu::after {
+    background-color: $background-darker;
+    color: $icon-color;
+  }
+}
+
+.x-grid-item .x-grid-icon-custom {
+  &.lxc::after,
+  &.qemu::after {
+    background-color: $background-darker;
+  }
+}
+
+.x-grid-item-alt .x-grid-icon-custom {
+  &.lxc::after,
+  &.qemu::after {
+    background-color: $background-darkest;
+  }
+}
+
+.x-treelist-item-selected {
+  .lxc::after,
+  .qemu::after {
+    background-color: $primary-color;
+    text-shadow: -1px 0 1px $primary-color;
+  }
+}
+
+.x-grid-item-over,
+// hovered items in treelists
+.x-treelist-item-over,
+// template icons when in selected menu item or table row
+.x-grid-item-selected,
+// vm/ct that is focused (e.g. by mouse-down)
+.x-keyboard-mode .x-grid-item-focused {
+  .lxc::after,
+  .qemu::after {
+    background-color: $selection-background-color !important;
+    text-shadow: -1px 0 1px $selection-background-color;
+  }
+}
+
+.x-action-col-icon:hover {
+  &::before,
+  &::after {
+    text-shadow: -1px 0 1px $background-darker;
+  }
+}
+
+// set icon color of intentional black icons (e.g.: pencil icon for
+// quickly changing the ACME account)
+.fa.black {
+  color: $icon-color;
+}
+
+// The usage icons dynamically displaying how full a storage is
+.usage-wrapper {
+  border: 1px solid $icon-color;
+}
+
+.usage-negative {
+  background-color: transparent;
+}
+
+.usage {
+  background-color: $icon-color;
+}
+
+// PVE sets black on the lock overlays; the native dark theme only fixes `locked`.
+.x-tree-icon-custom,
+.x-grid-icon-custom {
+  &.locked::after,
+  &.lock-backup::after,
+  &.lock-migrate::after,
+  &.lock-suspended::after,
+  &.lock-snapshot::after {
+    color: $icon-color;
+  }
+}

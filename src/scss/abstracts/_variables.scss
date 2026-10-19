@@ -1,0 +1,66 @@
+// PVEDiscordDark for Proxmox VE 9 -- Discord-inspired palette.
+// Structure mirrors proxmox-widget-toolkit's native dark theme; only values differ.
+// Original palette from Weilbyte/PVEDiscordDark.
+$discord-blurple: #526DD1;
+$discord-green: #43b581;
+$discord-yellow: #faa61a;
+$discord-red: #ba2b2d;
+
+// Primary colors
+$primary-color: $discord-blurple;
+$primary-light: #6a83e0;
+$primary-dark: #4259b8;
+
+// Highlighted Text (Links, Headers, etc.)
+$highlighted-text: #8ea1e8;
+$highlighted-text-alt: #b9c4f2;
+$highlighted-text-crit: #ff6b6d;
+
+// Icon and Text colors
+$text-color: #f2f3f5;
+$text-color-inactive: #9a9da3;
+$icon-color: #e6e7ea;
+$icon-color-alt: #8c8f95;
+
+// Borders
+$border-color: #4a4d53;
+$border-color-alt: #36393f;
+
+// Backgrounds
+$content-background-color: #2C2F33;
+$content-background-selected: #4A4D53;
+$background-dark: #2C2F33;
+$background-darker: #23272a;
+$background-darkest: #1e2124;
+$background-invalid: #4a1a1c;
+$background-warning: #4d3408;
+
+// Buttons
+$neutral-button-color: #40444b;
+$neutral-button-color-alt: #4f545c;
+$neutral-button-text-color: #f2f3f5;
+$neutral-button-icon-color: $neutral-button-text-color;
+
+// Help Buttons
+$help-button-color: #a3a6ad;
+$help-button-color-alt: #bcbfc4;
+$help-button-text-color: #1e2124;
+$help-button-icon-color: $help-button-text-color;
+
+// Selection Colors
+$selection-background-color: #40444b;
+$selection-background-text-color: #ffffff;
+
+// Other
+$form-field-body-color: $background-dark;
+$bottom-splitter-color: #1a1c1f;
+
+$icon-brightness: lightness($icon-color);
+
+// Spam score colors
+$spam-high-neg: #1d3a73;
+$spam-high-pos: #5a1f21;
+$spam-mid-neg: #2a4f9e;
+$spam-mid-pos: #8a2f32;
+$spam-low-neg: #526DD1;
+$spam-low-pos: #ba2b2d;

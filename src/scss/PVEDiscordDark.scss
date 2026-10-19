@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+// PVEDiscordDark for Proxmox VE 9
+// A Discord-style dark theme. Built on the stock `proxmox-dark` theme from
+// proxmox-widget-toolkit (AGPL-3.0); only the palette and a few fixes differ.
+// Edit colours in abstracts/_variables.scss, then run ./build.sh.
+
+// 1. Abstracts: palette and helpers
+@import "abstracts/mixins";
+@import "abstracts/variables";
+
+// 2. Charts, gauges and icons (chart colours are exposed to Proxmox as --pwt-* CSS variables)
+@import "other/charts";
+@import "other/icons";
+@import "other/icons-recolored";
+
+// 3. ExtJS component styling
+@import "extjs/form/button";
+@import "extjs/form/combobox";
+@import "extjs/form/formfield";
+@import "extjs/grid";
+@import "extjs/menu";
+@import "extjs/panel";
+@import "extjs/progress";
+@import "extjs/splitter";
+@import "extjs/tabbar";
+@import "extjs/tip";
+@import "extjs/toolbar";
+@import "extjs/treepanel";
+@import "extjs/window";
+@import "extjs/body";
+@import "extjs/presentation";
+
+// 4. Proxmox-specific widgets
+@import "proxmox/general";
+@import "proxmox/journal";
+@import "proxmox/helpbutton";
+@import "proxmox/loadingindicator";
+@import "proxmox/markdown";
+@import "proxmox/nodes";
+@import "proxmox/quarantine";
+@import "proxmox/storages";
+@import "proxmox/tags";
+@import "proxmox/datepicker";

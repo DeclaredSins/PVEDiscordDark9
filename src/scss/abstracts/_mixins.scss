@@ -1,0 +1,5 @@
+// selected items in dropdown etc
+@mixin selection {
+  background-color: $selection-background-color;
+  color: $selection-background-text-color;
+}

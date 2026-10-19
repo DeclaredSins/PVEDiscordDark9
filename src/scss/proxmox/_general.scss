@@ -1,0 +1,53 @@
+// Swapping out the logo with CSS rather than using javascript
+img[id^="proxmoxlogo-"][id$="-img"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+img[id^="proxmoxLogoSvg-"][id$="-img"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+// removes the gray line in the header of the mail gateway
+div[id^="versioninfo-"] + div[id^="panel-"] > div[id^="panel-"][id$="-bodyWrap"] > div,
+div.eol-notice + div[id^="panel-"] > div[id^="panel-"][id$="-bodyWrap"] > div {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+// Section header in the "My Settings" page
+.x-fieldset-header-default > .x-fieldset-header-text {
+  color: $text-color;
+}
+
+// Errors and bad configuration (Taskviewer / no repository enabled)
+.proxmox-invalid-row {
+  background-color: $background-invalid;
+}
+
+// Warning rows, e.g. when enabling staging or no-subscription
+// repository
+.proxmox-warning-row {
+  background-color: $background-warning;
+}
+
+// Disabled rows (e.g. disabled repos in Repository view)
+.proxmox-disabled-row td {
+  color: $text-color-inactive;
+}
+
+.pmx-hint {
+  background-color: $background-warning;
+}
+
+.pmx-hint a {
+  color: $highlighted-text-alt;
+}
+
+.pmx-hint a:active {
+  color: $highlighted-text;
+}
+
+// Unclickable elements (mostly for elements with conditional handlers)
+.pmx-unclickable {
+  pointer-events: none;
+}

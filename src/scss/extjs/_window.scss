@@ -1,0 +1,45 @@
+.x-window-default {
+  background-color: $background-darkest;
+
+  // make the color transparent so the border doesn't appear visibly,
+  // like in crisp, but keep to keep the layout intact
+  border-color: transparent;
+}
+
+.x-window-header-default {
+  background-color: $background-darker;
+
+  // make the color transparent so the border doesn't appear visibly,
+  // like in crisp, but keep to keep the layout intact
+  border-color: transparent;
+
+  // relevant for (disabled) elements that are rendered directly on the header bar like tools
+  // As otherwise, a too light mask is used, which then makes the element stand out in an odd way
+  .x-mask {
+    background-color: rgba($background-darker, 0.7);
+  }
+}
+
+.x-window-header-title-default {
+  color: $highlighted-text;
+}
+
+.x-window-body-default {
+  background-color: $background-darker;
+  border-color: $border-color-alt;
+  color: $text-color;
+}
+
+// Window when dragged
+.x-window-ghost {
+  background-color: $background-darker;
+}
+
+// The X in the right upper corner of closable windows
+.x-window-header-default .x-tool-img {
+  background-color: transparent;
+}
+
+.x-message-box .x-window-body {
+  background-color: $background-dark;
+}

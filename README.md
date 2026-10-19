@@ -1,51 +1,92 @@
+# PVEDiscordDark for Proxmox VE 9
 
+A Discord-inspired dark theme for the Proxmox VE 9 web UI. It is a port of
+[Weilbyte/PVEDiscordDark](https://github.com/Weilbyte/PVEDiscordDark), which is unmaintained
+and only supports PVE up to 7.3.
 
+> **Status:** early. Built against the PVE 9.2 sources and checked by reviewing the CSS and by user
+> screenshots, not by a systematic test of every dialog. Please open an issue with a screenshot if you
+> find black text, black icons or odd graphs.
 
+## Why this is a rewrite, not a patch
 
-![](https://i.imgur.com/SnlCyHF.png)
+PVE 9 ships its own dark theme (`proxmox-dark` in
+[proxmox-widget-toolkit](https://git.proxmox.com/?p=proxmox-widget-toolkit.git)). It styles graphs and
+gauges through CSS variables (`--pwt-*`). The original project used positional `nth-child` selectors
+and JavaScript patches of chart internals, which break on newer versions.
 
-<p align="center">A dark theme for the Proxmox Web UI,<br/> <i>inspired by Discord's color scheme.</i></p>
+This port recompiles the native dark-theme SCSS with the Discord palette instead, so charts, gauges,
+buttons and legends are styled by the same mechanisms Proxmox itself uses. **No JavaScript is injected.**
 
-<p align="center">Everything is dark, including the graphs, context menus and all in between! Eyes need not be fried.</p>    
-The theme now runs its own JavaScript code which patches the colors for certain components (and charts). This approach is much better, and safer than what was used previously.
+On top of the native theme it also:
 
-## Installation 
-The installation is done via the CLI utility. Run the following commands on the PVE node serving the Web UI:  Clearing browser cache is necessary to see the changes.
+- ships light copies of Proxmox's hard-coded black SVG icons (CPU, memory, CD, PCI, serial, RNG), instead of
+  the `invert()` filter that also darkens neighbouring text;
+- fixes the black lock badges shown on guests during backup, migrate, suspend and snapshot.
+
+## Install
+
+On the Proxmox node, as root:
+
+```bash
+git clone https://github.com/DeclaredSins/PVEDiscordDark9.git /root/pvediscorddark
+bash /root/pvediscorddark/install.sh install
+```
+
+No Git on the node? Copy the folder over with `scp -r` instead. Then hard-refresh the browser
+(Ctrl/Cmd+Shift+R).
+
+- **Keep the folder.** An apt hook (`/etc/apt/apt.conf.d/99-pvediscorddark`) runs `install.sh` again
+  after `pve-manager` upgrades overwrite the web UI template.
+- **Clusters:** repeat on each node, since each node serves its own UI.
+- **Status / removal:** `bash install.sh status`, `bash install.sh uninstall`.
+- The theme is always on. It does not appear in the Proxmox theme selector.
+- A one-time backup of the original template is saved as `/usr/share/pve-manager/index.html.tpl.bak`.
+
+## What the installer changes
+
+| Path | Change |
+| --- | --- |
+| `/usr/share/pve-manager/css/dd_style.css` | the theme |
+| `/usr/share/pve-manager/images/dd_*.svg` | recoloured icons |
+| `/usr/share/pve-manager/index.html.tpl` | one `<link>` line added before `</head>` |
+| `/etc/apt/apt.conf.d/99-pvediscorddark` | re-applies the theme after upgrades |
+
+## Customising
+
+Colours are in [`src/scss/abstracts/_variables.scss`](src/scss/abstracts/_variables.scss). To rebuild you need
+[Dart Sass](https://github.com/sass/dart-sass/releases):
+
+```bash
+./build.sh                      # or: SASS=/path/to/sass ./build.sh
+```
+
+This writes `dist/theme-discord-dark.css` and copies the icons to `dist/images/`. The compiled `dist/`
+is committed, so people can install without a Sass toolchain.
+
+To regenerate the icons from fresh Proxmox sources, see `scripts/recolor-icons.py`.
+
+## Layout
 
 ```
-~# wget https://raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh
-~# bash PVEDiscordDark.sh install
+src/scss/            theme source (palette, ExtJS components, Proxmox widgets, icons)
+src/images/          recoloured SVG icons
+dist/                compiled CSS and icons (what the installer uses)
+scripts/             helper to regenerate icons
+build.sh             compile SCSS -> dist/
+install.sh           install / uninstall / status on a Proxmox node
 ```
-Or this oneliner
-```
-bash <(curl -s https://raw.githubusercontent.com/Weilbyte/PVEDiscordDark/master/PVEDiscordDark.sh ) install
-```
 
-Note that you will need to run the install command every time `pve-manager` is updated (i.e. after every Proxmox update)
+## Credits
 
-## Uninstallation
- To uninstall the theme, simply run the utility with the `uninstall` command. Clearing browser cache is necessary to see the changes.
- 
-## Installer & Security
-The new installer relies on the `/meta/supported` and `/meta/imagelist` files being present in the repository. It also includes a silent mode. Run `bash PVEDiscordDark.sh -h` for usage instructions. 
+- **[Weilbyte](https://github.com/Weilbyte)** created the original
+  [PVEDiscordDark](https://github.com/Weilbyte/PVEDiscordDark): the Discord colour palette and the idea.
+  Its git history is preserved in this repository.
+- **Proxmox Server Solutions GmbH** wrote the `proxmox-dark` theme this port is built on.
 
-Furthermore, you will be able to provide the environment variables `REPO` and `TAG` to specify from what repository and from what commit tag to install the theme from.   
-`REPO` is in format `Username/Repository` and defaults to `Weilbyte/PVEDiscordDark` (this repository).    
-`TAG` defaults to `master`, but it is strongly recommended to use the SHA-1 commit hash for security.
+## Licence
 
-## Offline bundle
-If desired, the installation utility can be run offline. Upon detecting a folder called `offline` in the current working directory, the script will enter offline mode and use the resources within that folder instead of retrieving them from GitHub.    
-
-The `offline` folder must have the following files: `meta/[imagelist, supported]`, `PVEDiscordDark/images/*`, `PVEDiscordDark/js/PVEDiscordDark.js`, `PVEDiscordDark/sass/PVEDiscordDark.css`
-
-You can find a zip containing the installer and offline folder under the artifact section of the GitHub Actions under this repository or as an asset attached to releases.
-
-## Contributors
-Thanks to everybody who contributed to this project, and additional thanks to [Crinisus](https://github.com/crinisus) for catching bugs for the rewrite!
-
-<a href="https://github.com/weilbyte/pvediscorddark/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=weilbyte/pvediscorddark" />
-</a>
-
-
-*Awoo'ing on this repo is encouraged.*
+Because the SCSS is derived from Proxmox's AGPL-3.0 dark theme, this project is licensed
+**AGPL-3.0-or-later** (see [LICENSE](LICENSE)). The original PVEDiscordDark palette and idea are MIT,
+Copyright 2021 Weilbyte (see [LICENSE-UPSTREAM-MIT](LICENSE-UPSTREAM-MIT)).
+Not affiliated with Proxmox Server Solutions GmbH or Discord.
